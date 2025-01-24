@@ -12,7 +12,7 @@ A command-line tool to download images from web pages using CSS selectors.
 ## Installation
 
 ```bash
-git clone [https://github.com/hisaruki/down_by_css_selector.git](https://github.com/hisaruki/down_by_css_selector.git)
+git clone https://github.com/hisaruki/down_by_css_selector.git
 cd down_by_css_selector
 pip install -r requirements.txt
 ```
