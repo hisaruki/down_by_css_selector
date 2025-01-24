@@ -23,6 +23,13 @@ response = requests.get(args.url)
 webpage = BeautifulSoup(response.text, "lxml")
 
 def download_image(image_url, output_filename=None):
+    """
+    指定されたURLから画像をダウンロードする関数
+    
+    Args:
+        image_url: ダウンロードする画像のURL
+        output_filename: 保存するファイル名（オプション）
+    """
     url_path = Path(parse.urlparse(image_url).path)
     file_suffix = url_path.suffix
     if not output_filename:
@@ -33,12 +40,33 @@ def download_image(image_url, output_filename=None):
     print(image_url + "\t" + str(local_path))
 
 def extract_image_urls(base_url, css_selector, current_depth, webpage):
+    """
+    ウェブページから指定されたCSSセレクターに一致する画像URLを抽出する関数
+    
+    Args:
+        base_url: ベースとなるURL
+        css_selector: 画像を特定するCSSセレクター
+        current_depth: 現在の探索の深さ
+        webpage: BeautifulSoupオブジェクト
+    
+    Yields:
+        (画像URL, 深さ+1, ページタイトル)のタプル
+    """
     attribute_name = css_selector.split(" ")[-1]
     attribute_name = re.search(r'\[([a-zA-Z0-9]*).*\]', attribute_name).groups()[0]
     for image_element in webpage.select(css_selector):
         yield urljoin(base_url, image_element.get(attribute_name)), current_depth + 1, webpage.title.text.strip()
 
 def detect_image_selectors(webpage):
+    """
+    ウェブページから自動的に画像のCSSセレクターを検出する関数
+    
+    Args:
+        webpage: BeautifulSoupオブジェクト
+    
+    Returns:
+        検出された画像セレクター文字列
+    """
     image_classes = []
     for img in webpage.select('img[src*=".jpg"]'):
         css_class = img.get("class")
@@ -65,6 +93,14 @@ css_selectors = list(css_selectors)
 image_counter = 0
 
 def process_images(current_url, current_selector, current_depth):
+    """
+    再帰的に画像を処理してダウンロードする関数
+    
+    Args:
+        current_url: 現在処理中のURL
+        current_selector: 現在のCSSセレクター
+        current_depth: 現在の探索の深さ
+    """
     global image_counter
     for image_url, depth, page_title in extract_image_urls(current_url, current_selector, current_depth, webpage):
         if depth == len(css_selectors):
