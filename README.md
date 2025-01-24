@@ -12,8 +12,8 @@ A command-line tool to download images from web pages using CSS selectors.
 ## Installation
 
 ```bash
-git clone https://github.com/hisaruki/web-image-downloader.git
-cd web-image-downloader
+git clone https://github.com/hisaruki/down_by_css_selector.git
+cd down_by_css_selector
 pip install -r requirements.txt
 ```
 
@@ -73,8 +73,8 @@ CSSセレクターを使用してウェブページから画像をダウンロ�
 ## インストール
 
 ```bash
-git clone https://github.com/hisaruki/web-image-downloader.git
-cd web-image-downloader
+git clone https://github.com/hisaruki/down_by_css_selector.git
+cd down_by_css_selector
 pip install -r requirements.txt
 ```
 
